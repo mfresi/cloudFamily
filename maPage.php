@@ -49,90 +49,84 @@ if (empty($_SESSION)) {
         }
     }
 
-    function uploadImg()
-    {
-        var i;   
-        for (i = 0; i < _('imgFile').files.length;i++)
-        {
-            var file = _('imgFile').files[i];
+    function uploadImg() {
+        var i;
+        if (_('imgFile').files.length != 0) {
+            for (i = 0; i < _('imgFile').files.length; i++) {
+                var file = _('imgFile').files[i];
+                var data = new FormData();
+                data.append('imgFile', file);
 
-            if (file != undefined) {
-            var data = new FormData();
-            data.append('imgFile', file);
+                var ajax = new XMLHttpRequest();
+                ajax.upload.addEventListener("progress", progressHandler, false);
+                ajax.addEventListener("load", completeHandler, false);
+                ajax.addEventListener("error", errorHandler, false);
+                ajax.addEventListener("abort", abortHandler, false);
+                ajax.open("POST", "uploadImg.php");
+                ajax.send(data);
 
-            var ajax = new XMLHttpRequest();
-            ajax.upload.addEventListener("progress", progressHandler, false);
-            ajax.addEventListener("load", completeHandler, false);
-            ajax.addEventListener("error", errorHandler, false);
-            ajax.addEventListener("abort", abortHandler, false);
-            ajax.open("POST", "uploadImg.php");
-            ajax.send(data);
+                function progressHandler(event) {
+                    var pourcentage = (event.loaded / event.total) * 100;
+                    _('progressBarImg').value = Math.round(pourcentage);
+                    _('statusImg').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
+                }
 
-            function progressHandler(event) {
-                var pourcentage = (event.loaded / event.total) * 100;
-                _('progressBarImg').value = Math.round(pourcentage);
-                _('statusImg').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
-            }
+                function completeHandler(event) {
+                    _('statusImg').innerHTML = event.target.responseText;
+                    _('progressBarImg').value = 0;
+                }
 
-            function completeHandler(event) {
-                _('statusImg').innerHTML = event.target.responseText;
-                _('progressBarImg').value = 0;
-            }
+                function errorHandler() {
+                    _('statusImg').innerHTML = "L'upload a echoué !";
+                }
 
-            function errorHandler() {
-                _('statusImg').innerHTML = "L'upload a echoué !";
-            }
-
-            function abortHandler() {
-                _('statusImg').innerHTML = "L'upload a ete annulé !";
+                function abortHandler() {
+                    _('statusImg').innerHTML = "L'upload a ete annulé !";
+                }
             }
         } else {
             _('statusImg').innerHTML = "<div><p style='color:red'>Veuillez glisser une image !</p></div>";
         }
-        }
+
     }
 
-    function uploadMusique()
-    {
+    function uploadMusique() {
         var i;
+        if (_('musiqueFile').files.length != 0) {
+            for (i = 0; i < _('musiqueFile').files.length; i++) {
+                var file = _('musiqueFile').files[i];
+                var data = new FormData();
+                data.append('musiqueFile', file);
 
-        for (i = 0; i < _('musiqueFile').files.length;i++)
-        {
-            var file = _('musiqueFile').files[i];
+                var ajax = new XMLHttpRequest();
+                ajax.upload.addEventListener("progress", progressHandler, false);
+                ajax.addEventListener("load", completeHandler, false);
+                ajax.addEventListener("error", errorHandler, false);
+                ajax.addEventListener("abort", abortHandler, false);
+                ajax.open("POST", "uploadMusique.php");
+                ajax.send(data);
 
-            if (file != undefined) {
-            var data = new FormData();
-            data.append('musiqueFile', file);
+                function progressHandler(event) {
+                    var pourcentage = (event.loaded / event.total) * 100;
+                    _('progressBarMusique').value = Math.round(pourcentage);
+                    _('statusMusique').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
+                }
 
-            var ajax = new XMLHttpRequest();
-            ajax.upload.addEventListener("progress", progressHandler, false);
-            ajax.addEventListener("load", completeHandler, false);
-            ajax.addEventListener("error", errorHandler, false);
-            ajax.addEventListener("abort", abortHandler, false);
-            ajax.open("POST", "uploadMusique.php");
-            ajax.send(data);
+                function completeHandler(event) {
+                    _('statusMusique').innerHTML = event.target.responseText;
+                    _('progressBarMusique').value = 0;
+                }
 
-            function progressHandler(event) {
-                var pourcentage = (event.loaded / event.total) * 100;
-                _('progressBarMusique').value = Math.round(pourcentage);
-                _('statusMusique').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
-            }
+                function errorHandler() {
+                    _('statusMusique').innerHTML = "L'upload a echoué !";
+                }
 
-            function completeHandler(event) {
-                _('statusMusique').innerHTML = event.target.responseText;
-                _('progressBarMusique').value = 0;
-            }
-
-            function errorHandler() {
-                _('statusMusique').innerHTML = "L'upload a echoué !";
-            }
-
-            function abortHandler() {
-                _('statusMusique').innerHTML = "L'upload a ete annulé !";
+                function abortHandler() {
+                    _('statusMusique').innerHTML = "L'upload a ete annulé !";
+                }
             }
         } else {
             _('statusMusique').innerHTML = "<div><p style='color:red'>Veuillez glisser une musique !</p></div>";
-        }
         }
     }
 </script>
