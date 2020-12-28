@@ -51,9 +51,12 @@ if (empty($_SESSION)) {
 
     function uploadImg()
     {
-        var file = _('imgFile').files[0];
+        var i;   
+        for (i = 0; i < _('imgFile').files.length;i++)
+        {
+            var file = _('imgFile').files[i];
 
-        if (file != undefined) {
+            if (file != undefined) {
             var data = new FormData();
             data.append('imgFile', file);
 
@@ -86,13 +89,18 @@ if (empty($_SESSION)) {
         } else {
             _('statusImg').innerHTML = "<div><p style='color:red'>Veuillez glisser une image !</p></div>";
         }
+        }
     }
 
     function uploadMusique()
     {
-        var file = _('musiqueFile').files[0];
+        var i;
 
-        if (file != undefined) {
+        for (i = 0; i < _('musiqueFile').files.length;i++)
+        {
+            var file = _('musiqueFile').files[i];
+
+            if (file != undefined) {
             var data = new FormData();
             data.append('musiqueFile', file);
 
@@ -124,6 +132,7 @@ if (empty($_SESSION)) {
             }
         } else {
             _('statusMusique').innerHTML = "<div><p style='color:red'>Veuillez glisser une musique !</p></div>";
+        }
         }
     }
 </script>
