@@ -1724,13 +1724,14 @@ ol {
 .login__form {
 	position: relative;
 	padding-left: 145px;
+	width: 111%;
 }
 
 .login__form:after {
 	position: absolute;
-	right: -14px;
+	right: 45px;
 	top: -40px;
-	height: 330px;
+	height: 480px;
 	width: 1px;
 	background: rgba(255, 255, 255, 0.2);
 	content: "";
@@ -2052,6 +2053,21 @@ ol {
 	color: #ffffff;
 }
 
+.addImgPerso {
+	margin-top: 25px;
+	color: #ffffff;
+}
+
+.addImgPerso p{
+	margin-top: 25px;
+	color: #ffffff;
+}
+
+.addImgPerso h4{
+	margin-top: 25px;
+	color: #ffffff;
+}
+
 .addFilm h4{
 	margin-top: 25px;
 	color: #ffffff;
@@ -2084,6 +2100,14 @@ ol {
 
 .addMusique p{
 	margin-top: 25px;
+	color: #ffffff;
+}
+
+.container .publique h1{
+	color: #ffffff;
+}
+
+.container .prive h1{
 	color: #ffffff;
 }
 

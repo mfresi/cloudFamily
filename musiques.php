@@ -53,8 +53,8 @@
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="./index.php">Home</a></li>
-                                <li><a href="">Categories<span class="arrow_carrot-down"></span></a>
+                                <li><a href="./index.php">Home</a></li>
+                                <li class="active"><a href="">Categories<span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
                                         <li><a href="./films.php">Films</a></li>
                                         <li><a href="./photos.php">Photos</a></li>
@@ -62,15 +62,11 @@
                                     </ul>
                                 </li>
                                 <li><a href="./maPage.php">Ma page</a></li>
+                                <li><a href="./monEspace.php">Mon espace</a></li>
                                 <li><a href="./contact.php">Contact</a></li>
+                                <a href="./disconnect.php"><span style="color:red;">Deconnexion</span></a>
                             </ul>
                         </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="./disconnect.php"><span class="icon_close_alt2" style="color:red;"></span></a>
                     </div>
                 </div>
             </div>

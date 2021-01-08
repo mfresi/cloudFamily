@@ -129,6 +129,46 @@ if (empty($_SESSION)) {
             _('statusMusique').innerHTML = "<div><p style='color:red'>Veuillez glisser une musique !</p></div>";
         }
     }
+
+    function uploadImgPerso() {
+        var i;
+        if (_('imgFilePerso').files.length != 0) {
+            for (i = 0; i < _('imgFilePerso').files.length; i++) {
+                var file = _('imgFilePerso').files[i];
+                var data = new FormData();
+                data.append('imgFilePerso', file);
+
+                var ajax = new XMLHttpRequest();
+                ajax.upload.addEventListener("progress", progressHandler, false);
+                ajax.addEventListener("load", completeHandler, false);
+                ajax.addEventListener("error", errorHandler, false);
+                ajax.addEventListener("abort", abortHandler, false);
+                ajax.open("POST", "uploadImgPerso.php");
+                ajax.send(data);
+
+                function progressHandler(event) {
+                    var pourcentage = (event.loaded / event.total) * 100;
+                    _('progressBarImgPerso').value = Math.round(pourcentage);
+                    _('statusImgPerso').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
+                }
+
+                function completeHandler(event) {
+                    _('statusImgPerso').innerHTML = event.target.responseText;
+                    _('progressBarImgPerso').value = 0;
+                }
+
+                function errorHandler() {
+                    _('statusImgPerso').innerHTML = "L'upload a echoué !";
+                }
+
+                function abortHandler() {
+                    _('statusImgPerso').innerHTML = "L'upload a ete annulé !";
+                }
+            }
+        } else {
+            _('statusImgPerso').innerHTML = "<div><p style='color:red'>Veuillez glisser une musique !</p></div>";
+        }
+    }
 </script>
 
 <!DOCTYPE html>
@@ -187,15 +227,11 @@ if (empty($_SESSION)) {
                                     </ul>
                                 </li>
                                 <li class="active"><a href="./maPage.php">Ma page</a></li>
+                                <li><a href="./monEspace.php">Mon espace</a></li>
                                 <li><a href="./contact.php">Contact</a></li>
+                                <a href="./disconnect.php"><span style="color:red;">Deconnexion</span></a>
                             </ul>
                         </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="./disconnect.php"><span class="icon_close_alt2" style="color:red;"></span></a>
                     </div>
                 </div>
             </div>
@@ -222,95 +258,109 @@ if (empty($_SESSION)) {
     <!-- Blog Section Begin -->
     <section class="blog spad">
         <div class="container">
-            <div class="addImg">
-                <h4><u>Ajouter une photo : </u></h4>
-                <form method="POST" enctype="multipart/form-data">
-                    <p><progress id='progressBarImg' value="0" max="100" style="width: 300px;"></progress></p>
-                    <input type="file" id="imgFile" name="imgFile" multiple>
-                    <input type="button" name="chargementImg" value="Ajouter l'image" onclick="uploadImg()">
-                </form>
-                <h2 id="statusImg"></h2>
+            <div class="publique">
+                <h1>Publique :</h1>
+                <div class="addImg">
+                    <h4><u>Ajouter une photo : </u></h4>
+                    <form method="POST" enctype="multipart/form-data">
+                        <p><progress id='progressBarImg' value="0" max="100" style="width: 300px;"></progress></p>
+                        <input type="file" id="imgFile" name="imgFile" multiple>
+                        <input type="button" name="chargementImg" value="Ajouter l'image" onclick="uploadImg()">
+                    </form>
+                    <h2 id="statusImg"></h2>
+                </div>
+                <div class="addFilm">
+                    <h4><u>Ajouter un film : (.mp4 et .mkv)</u></h4>
+                    <h6><em>L'ajout d'un film peut prendre quelques secondes.</em></h6>
+                    <form method="POST" enctype="multipart/form-data">
+                        <p><progress id='progressBarFilm' value="0" max="100" style="width: 300px;"></progress></p>
+                        <input type="file" id="filmFile" name="filmFile">
+                        <input type="button" name="chargementFilm" value="Ajouter le film" onclick="uploadFilm()">
+                    </form>
+                    <h2 id="statusFilm"></h2>
+                </div>
+                <div class="addMusique">
+                    <h4><u>Ajouter une musique : (.mp3)</u></h4>
+                    <form method="POST" enctype="multipart/form-data">
+                        <p><progress id='progressBarMusique' value="0" max="100" style="width: 300px;"></progress></p>
+                        <input type="file" id="musiqueFile" name="musiqueFile">
+                        <input type="button" name="chargementMusique" value="Ajouter la musique" onclick="uploadMusique()">
+                    </form>
+                    <h2 id="statusMusique"></h2>
+                </div>
             </div>
-            <div class="addFilm">
-                <h4><u>Ajouter un film : (.mp4 et .mkv)</u></h4>
-                <h6><em>L'ajout d'un film peut prendre quelques secondes.</em></h6>
-                <form method="POST" enctype="multipart/form-data">
-                    <p><progress id='progressBarFilm' value="0" max="100" style="width: 300px;"></progress></p>
-                    <input type="file" id="filmFile" name="filmFile">
-                    <input type="button" name="chargementFilm" value="Ajouter le film" onclick="uploadFilm()">
-                </form>
-                <h2 id="statusFilm"></h2>
-            </div>
-            <div class="addMusique">
-                <h4><u>Ajouter une musique : (.mp3)</u></h4>
-                <form method="POST" enctype="multipart/form-data">
-                    <p><progress id='progressBarMusique' value="0" max="100" style="width: 300px;"></progress></p>
-                    <input type="file" id="musiqueFile" name="musiqueFile">
-                    <input type="button" name="chargementMusique" value="Ajouter la musique" onclick="uploadMusique()">
-                </form>
-                <h2 id="statusMusique"></h2>
+            <div class="prive">
+                <h1>Privé :</h1>
+                <div class="addImgPerso">
+                    <h4><u>Ajouter une photo : (en privé)</u></h4>
+                    <form method="POST" enctype="multipart/form-data">
+                        <p><progress id='progressBarImgPerso' value="0" max="100" style="width: 300px;"></progress></p>
+                        <input type="file" id="imgFilePerso" name="imgFile" multiple>
+                        <input type="button" name="chargementImgPerso" value="Ajouter l'image" onclick="uploadImgPerso()">
+                    </form>
+                    <h2 id="statusImgPerso"></h2>
+                </div>
             </div>
         </div>
-    </section>
-    <!-- Blog Section End -->
+        <!-- Blog Section End -->
 
-    <!-- Footer Section Begin -->
-    <footer class="footer">
-        <div class="page-up">
-            <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="footer__logo">
-                        <a href="./index.html"><img src="img/Logo.png" alt=""></a>
+        <!-- Footer Section Begin -->
+        <footer class="footer">
+            <div class="page-up">
+                <a href="#" id="scrollToTopButton"><span class="arrow_carrot-up"></span></a>
+            </div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="footer__logo">
+                            <a href="./index.html"><img src="img/Logo.png" alt=""></a>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="footer__nav">
+                            <ul>
+                                <li class="active"><a href="./index.php">Home</a></li>
+                                <li><a href="./categories.php">Categories</a></li>
+                                <li><a href="./maPage.php">Ma page</a></li>
+                                <li><a href="">Contacts</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <p>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                            Copyright &copy;<script>
+                                document.write(new Date().getFullYear());
+                            </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Mattei Fresi</a>
+                            <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                        </p>
+
                     </div>
                 </div>
-                <div class="col-lg-6">
-                    <div class="footer__nav">
-                        <ul>
-                            <li class="active"><a href="./index.php">Home</a></li>
-                            <li><a href="./categories.php">Categories</a></li>
-                            <li><a href="./maPage.php">Ma page</a></li>
-                            <li><a href="">Contacts</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="col-lg-3">
-                    <p>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                        Copyright &copy;<script>
-                            document.write(new Date().getFullYear());
-                        </script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Mattei Fresi</a>
-                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-                    </p>
+            </div>
+        </footer>
+        <!-- Footer Section End -->
 
-                </div>
+        <!-- Search model Begin -->
+        <div class="search-model">
+            <div class="h-100 d-flex align-items-center justify-content-center">
+                <div class="search-close-switch"><em class="icon_close"></em></div>
+                <form class="search-model-form">
+                    <input type="text" id="search-input" placeholder="Search here.....">
+                </form>
             </div>
         </div>
-    </footer>
-    <!-- Footer Section End -->
+        <!-- Search model end -->
 
-    <!-- Search model Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch"><em class="icon_close"></em></div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
-    <!-- Search model end -->
-
-    <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/player.js"></script>
-    <script src="js/jquery.nice-select.min.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+        <!-- Js Plugins -->
+        <script src="js/jquery-3.3.1.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/player.js"></script>
+        <script src="js/jquery.nice-select.min.js"></script>
+        <script src="js/mixitup.min.js"></script>
+        <script src="js/jquery.slicknav.js"></script>
+        <script src="js/owl.carousel.min.js"></script>
+        <script src="js/main.js"></script>
 
 </body>
 

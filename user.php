@@ -11,7 +11,7 @@
         public function verifUser(){ //Fonction vérifiant si les champs sont remplis correctement
             if (!empty($this->_name)) {
                 if(!empty($this->_mdp)){
-                    $bdd = new PDO('mysql:host=localhost; dbname=famille; charset=utf8', 'root', 'root');
+                    $bdd = new PDO('mysql:host=mysql-matteifresi.alwaysdata.net; dbname=mattei_famille; charset=utf8', 'mattei', '37pgmh55');
                     $requeteUser = $bdd->prepare("SELECT * FROM user WHERE name = ? AND password = ?");
                     $requeteUser->execute(array($this->_name, $this->_mdp));
                     $userExist = $requeteUser->rowCount();

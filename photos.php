@@ -52,8 +52,8 @@ if (empty($_SESSION)) {
                     <div class="header__nav">
                         <nav class="header__menu mobile-menu">
                             <ul>
-                                <li class="active"><a href="./index.php">Home</a></li>
-                                <li><a href="">Categories<span class="arrow_carrot-down"></span></a>
+                                <li><a href="./index.php">Home</a></li>
+                                <li class="active"><a href="">Categories<span class="arrow_carrot-down"></span></a>
                                     <ul class="dropdown">
                                         <li><a href="./films.php">Films</a></li>
                                         <li><a href="./photos.php">Photos</a></li>
@@ -61,15 +61,11 @@ if (empty($_SESSION)) {
                                     </ul>
                                 </li>
                                 <li><a href="./maPage.php">Ma page</a></li>
+                                <li><a href="./monEspace.php">Mon espace</a></li>
                                 <li><a href="./contact.php">Contact</a></li>
+                                <a href="./disconnect.php"><span style="color:red;">Deconnexion</span></a>
                             </ul>
                         </nav>
-                    </div>
-                </div>
-                <div class="col-lg-2">
-                    <div class="header__right">
-                        <a href="#" class="search-switch"><span class="icon_search"></span></a>
-                        <a href="./disconnect.php"><span class="icon_close_alt2" style="color:red;"></span></a>
                     </div>
                 </div>
             </div>
@@ -104,7 +100,7 @@ if (empty($_SESSION)) {
                 if ($handle = opendir("./img/photoFamille/$idpage/")) {
                     while (false !== ($file = readdir($handle))) {
                         if ($file != "." && $file != "..") {
-                            echo "<a href=\"./img/photoFamille/$idpage/$file\" target=\"_blank\"><img width=\"150\" src=\"./img/photoFamille/$idpage/$file\"> </a>";
+                            echo "<a href=\"./img/photoFamille/$idpage/$file\" target=\"_blank\"><img width=\"150\"; height=\"200\"; src=\"./img/photoFamille/$idpage/$file\"> </a>";
                         }
                     }
                     closedir($handle);
