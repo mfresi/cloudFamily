@@ -10,123 +10,42 @@ if (empty($_SESSION)) {
         return document.getElementById(elmt);
     }
 
-    function uploadFilm() {
+    function uploadFile() {
 
-        var file = _('filmFile').files[0];
+        var file = _('File').files[0];
 
         if (file != undefined) {
             var data = new FormData();
-            data.append('filmFile', file);
+            data.append('File', file);
 
             var ajax = new XMLHttpRequest();
             ajax.upload.addEventListener("progress", progressHandler, false);
             ajax.addEventListener("load", completeHandler, false);
             ajax.addEventListener("error", errorHandler, false);
             ajax.addEventListener("abort", abortHandler, false);
-            ajax.open("POST", "uploadFilm.php");
+            ajax.open("POST", "uploadFile.php");
             ajax.send(data);
 
             function progressHandler(event) {
                 var pourcentage = (event.loaded / event.total) * 100;
-                _('progressBarFilm').value = Math.round(pourcentage);
-                _('statusFilm').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
+                _('progressBar').value = Math.round(pourcentage);
+                _('status').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
             }
 
             function completeHandler(event) {
-                _('statusFilm').innerHTML = event.target.responseText;
-                _('progressBarFilm').value = 0;
+                _('status').innerHTML = event.target.responseText;
+                _('progressBar').value = 0;
             }
 
             function errorHandler() {
-                _('statusFilm').innerHTML = "L'upload a echoué !";
+                _('status').innerHTML = "L'upload a echoué !";
             }
 
             function abortHandler() {
-                _('statusFilm').innerHTML = "L'upload a ete annulé !";
+                _('status').innerHTML = "L'upload a ete annulé !";
             }
         } else {
-            _('statusFilm').innerHTML = "<div><p style='color:red'>Veuillez glisser un film !</p></div>";
-        }
-    }
-
-    function uploadImg() {
-        var i;
-        if (_('imgFile').files.length != 0) {
-            for (i = 0; i < _('imgFile').files.length; i++) {
-                var file = _('imgFile').files[i];
-                var data = new FormData();
-                data.append('imgFile', file);
-
-                var ajax = new XMLHttpRequest();
-                ajax.upload.addEventListener("progress", progressHandler, false);
-                ajax.addEventListener("load", completeHandler, false);
-                ajax.addEventListener("error", errorHandler, false);
-                ajax.addEventListener("abort", abortHandler, false);
-                ajax.open("POST", "uploadImg.php");
-                ajax.send(data);
-
-                function progressHandler(event) {
-                    var pourcentage = (event.loaded / event.total) * 100;
-                    _('progressBarImg').value = Math.round(pourcentage);
-                    _('statusImg').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
-                }
-
-                function completeHandler(event) {
-                    _('statusImg').innerHTML = event.target.responseText;
-                    _('progressBarImg').value = 0;
-                }
-
-                function errorHandler() {
-                    _('statusImg').innerHTML = "L'upload a echoué !";
-                }
-
-                function abortHandler() {
-                    _('statusImg').innerHTML = "L'upload a ete annulé !";
-                }
-            }
-        } else {
-            _('statusImg').innerHTML = "<div><p style='color:red'>Veuillez glisser une image !</p></div>";
-        }
-
-    }
-
-    function uploadMusique() {
-        var i;
-        if (_('musiqueFile').files.length != 0) {
-            for (i = 0; i < _('musiqueFile').files.length; i++) {
-                var file = _('musiqueFile').files[i];
-                var data = new FormData();
-                data.append('musiqueFile', file);
-
-                var ajax = new XMLHttpRequest();
-                ajax.upload.addEventListener("progress", progressHandler, false);
-                ajax.addEventListener("load", completeHandler, false);
-                ajax.addEventListener("error", errorHandler, false);
-                ajax.addEventListener("abort", abortHandler, false);
-                ajax.open("POST", "uploadMusique.php");
-                ajax.send(data);
-
-                function progressHandler(event) {
-                    var pourcentage = (event.loaded / event.total) * 100;
-                    _('progressBarMusique').value = Math.round(pourcentage);
-                    _('statusMusique').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
-                }
-
-                function completeHandler(event) {
-                    _('statusMusique').innerHTML = event.target.responseText;
-                    _('progressBarMusique').value = 0;
-                }
-
-                function errorHandler() {
-                    _('statusMusique').innerHTML = "L'upload a echoué !";
-                }
-
-                function abortHandler() {
-                    _('statusMusique').innerHTML = "L'upload a ete annulé !";
-                }
-            }
-        } else {
-            _('statusMusique').innerHTML = "<div><p style='color:red'>Veuillez glisser une musique !</p></div>";
+            _('status').innerHTML = "<div><p style='color:red'>Veuillez glisser un fichier !</p></div>";
         }
     }
 
@@ -260,33 +179,15 @@ if (empty($_SESSION)) {
         <div class="container">
             <div class="publique">
                 <h1>Publique :</h1>
-                <div class="addImg">
-                    <h4><u>Ajouter une photo : </u></h4>
-                    <form method="POST" enctype="multipart/form-data">
-                        <p><progress id='progressBarImg' value="0" max="100" style="width: 300px;"></progress></p>
-                        <input type="file" id="imgFile" name="imgFile" multiple>
-                        <input type="button" name="chargementImg" value="Ajouter l'image" onclick="uploadImg()">
-                    </form>
-                    <h2 id="statusImg"></h2>
-                </div>
                 <div class="addFilm">
-                    <h4><u>Ajouter un film : (.mp4 et .mkv)</u></h4>
+                    <h4><u>Ajouter un fichier : </u></h4>
                     <h6><em>L'ajout d'un film peut prendre quelques secondes.</em></h6>
                     <form method="POST" enctype="multipart/form-data">
-                        <p><progress id='progressBarFilm' value="0" max="100" style="width: 300px;"></progress></p>
-                        <input type="file" id="filmFile" name="filmFile">
-                        <input type="button" name="chargementFilm" value="Ajouter le film" onclick="uploadFilm()">
+                        <p><progress id='progressBar' value="0" max="100" style="width: 300px;"></progress></p>
+                        <input type="file" id="File" name="File">
+                        <input type="button" name="chargementFile" value="Ajouter le fichier" onclick="uploadFile()">
                     </form>
-                    <h2 id="statusFilm"></h2>
-                </div>
-                <div class="addMusique">
-                    <h4><u>Ajouter une musique : (.mp3)</u></h4>
-                    <form method="POST" enctype="multipart/form-data">
-                        <p><progress id='progressBarMusique' value="0" max="100" style="width: 300px;"></progress></p>
-                        <input type="file" id="musiqueFile" name="musiqueFile">
-                        <input type="button" name="chargementMusique" value="Ajouter la musique" onclick="uploadMusique()">
-                    </form>
-                    <h2 id="statusMusique"></h2>
+                    <h2 id="status"></h2>
                 </div>
             </div>
             <div class="prive">
