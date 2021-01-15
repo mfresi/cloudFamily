@@ -49,43 +49,43 @@ if (empty($_SESSION)) {
         }
     }
 
-    function uploadImgPerso() {
+    function uploadFilePerso() {
         var i;
-        if (_('imgFilePerso').files.length != 0) {
-            for (i = 0; i < _('imgFilePerso').files.length; i++) {
-                var file = _('imgFilePerso').files[i];
+        if (_('filePerso').files.length != 0) {
+            for (i = 0; i < _('filePerso').files.length; i++) {
+                var file = _('filePerso').files[i];
                 var data = new FormData();
-                data.append('imgFilePerso', file);
+                data.append('filePerso', file);
 
                 var ajax = new XMLHttpRequest();
                 ajax.upload.addEventListener("progress", progressHandler, false);
                 ajax.addEventListener("load", completeHandler, false);
                 ajax.addEventListener("error", errorHandler, false);
                 ajax.addEventListener("abort", abortHandler, false);
-                ajax.open("POST", "uploadImgPerso.php");
+                ajax.open("POST", "uploadFilePerso.php");
                 ajax.send(data);
 
                 function progressHandler(event) {
                     var pourcentage = (event.loaded / event.total) * 100;
-                    _('progressBarImgPerso').value = Math.round(pourcentage);
-                    _('statusImgPerso').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
+                    _('progressBarPerso').value = Math.round(pourcentage);
+                    _('statusPerso').innerHTML = "<div style='color:white'><p>" + Math.round(pourcentage) + '% uploadé... Patientez </p></div>';
                 }
 
                 function completeHandler(event) {
-                    _('statusImgPerso').innerHTML = event.target.responseText;
-                    _('progressBarImgPerso').value = 0;
+                    _('statusPerso').innerHTML = event.target.responseText;
+                    _('progressBarPerso').value = 0;
                 }
 
                 function errorHandler() {
-                    _('statusImgPerso').innerHTML = "L'upload a echoué !";
+                    _('statusPerso').innerHTML = "L'upload a echoué !";
                 }
 
                 function abortHandler() {
-                    _('statusImgPerso').innerHTML = "L'upload a ete annulé !";
+                    _('statusPerso').innerHTML = "L'upload a ete annulé !";
                 }
             }
         } else {
-            _('statusImgPerso').innerHTML = "<div><p style='color:red'>Veuillez glisser une musique !</p></div>";
+            _('statusPerso').innerHTML = "<div><p style='color:red'>Veuillez glisser un fichier !</p></div>";
         }
     }
 </script>
@@ -193,13 +193,13 @@ if (empty($_SESSION)) {
             <div class="prive">
                 <h1>Privé :</h1>
                 <div class="addImgPerso">
-                    <h4><u>Ajouter une photo : (en privé)</u></h4>
+                    <h4><u>Ajouter un fichier : (en privé)</u></h4>
                     <form method="POST" enctype="multipart/form-data">
-                        <p><progress id='progressBarImgPerso' value="0" max="100" style="width: 300px;"></progress></p>
-                        <input type="file" id="imgFilePerso" name="imgFile" multiple>
-                        <input type="button" name="chargementImgPerso" value="Ajouter l'image" onclick="uploadImgPerso()">
+                        <p><progress id='progressBarPerso' value="0" max="100" style="width: 300px;"></progress></p>
+                        <input type="file" id="filePerso" name="filePerso" multiple>
+                        <input type="button" name="chargementPerso" value="Ajouter l'image" onclick="uploadFilePerso()">
                     </form>
-                    <h2 id="statusImgPerso"></h2>
+                    <h2 id="statusPerso"></h2>
                 </div>
             </div>
         </div>

@@ -1,10 +1,13 @@
 <?php
+session_start();
+?>
+<?php
 if (!empty($_FILES)) {
-    $nomFichier = $_FILES['imgFile']['name'];
-    $tempRep = $_FILES['imgFile']['tmp_name'];
-    $tailleFichier = $_FILES['imgFile']['size'];
-    $typeFichier = $_FILES['imgFile']['type'];
-    $error = $_FILES['imgFile']['error'];
+    $nomFichier = $_FILES['filePerso']['name'];
+    $tempRep = $_FILES['filePerso']['tmp_name'];
+    $tailleFichier = $_FILES['filePerso']['size'];
+    $typeFichier = $_FILES['filePerso']['type'];
+    $error = $_FILES['filePerso']['error'];
 
     if ($error != 0 || !$tempRep) {
         echo "<p style='color:red'>Erreur : le fichier n'a pas pu être uploadé";
@@ -18,7 +21,7 @@ if (!empty($_FILES)) {
     if (!in_array($exte, $tabExtension)) {
         echo "<p style='color:red';>Le fichier n'est pas une image</p>";
     } else {
-        if (move_uploaded_file($tempRep, 'img/photoFamille/' . $nomFichier)) {
+        if (move_uploaded_file($tempRep, $_SESSION['name'].'/' . $nomFichier)) {
             echo "<div><p style='color:green'>chargement du fichier " . $nomFichier . " terminé</p></div>";
         } else {
             echo "<div style='color:white'><p>Une erreur est survenue lors de l'envoi du fichier</p></div>";
